@@ -1,0 +1,8 @@
+.vim
+.vscode
+TODO.txt
+node_modules
+.env
+lichess
+docker-compose.yml
+db/*
