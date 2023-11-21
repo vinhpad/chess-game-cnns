@@ -22,15 +22,14 @@ class ClassifierTrainer(object):
     loss_function = CrossEntropyLoss()
     model = CNN(64)
     optimizer = SGD(model.parameters(), lr=learning_rate, momentum=momentum)
-
-    for index,data in tqdm(enumerate(train_dataloader)):
-        inputs, labels = data
-        print(inputs)
-        optimizer.zero_grad()
-        outputs = model(inputs)
-        loss = loss_function(outputs, labels)
-        loss.backward()
-        optimizer.step()
+    for _ in tqdm(range(num_epochs)):
+      for index,data in enumerate(train_dataloader):
+          inputs, labels = data
+          optimizer.zero_grad()
+          outputs = model(inputs.float())
+          loss = loss_function(outputs, labels)
+          loss.backward()
+          optimizer.step()
 
 
     #return best_model, loss_history, train_acc_history, val_acc_history
