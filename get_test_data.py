@@ -7,18 +7,19 @@ from tqdm import tqdm
 from util import *
 
 DATA = "./data/FICS_2000.pgn"
-NUM_GAMES = 3000
+NUM_TRAIN_GAMES = 3000
+NUM_TEST_GAMES = 100
 
 print("Loading PGN file...")
 
-games = get_all_games(DATA, NUM_GAMES)
-games = games[:NUM_GAMES]
+games = get_all_games(DATA, NUM_TEST_GAMES + NUM_TRAIN_GAMES)
+games = games[NUM_TRAIN_GAMES:NUM_TRAIN_GAMES + NUM_TEST_GAMES]
 
 print("Finished loading the PGN file.")
 print("Total number of games: %d" % len(games))
 
 # Move-out
-X_train, y_train = [], []
+X_test, y_test = [], []
 # Move-in
 p1_X, p2_X, p3_X = [], [], []
 p4_X, p5_X, p6_X = [], [], []
@@ -59,9 +60,9 @@ for index, game in tqdm(enumerate(games)):
 
 		board.push_san(move)
 
-		# Filling the X_train and y_train array
-		X_train.append(im)
-		y_train.append(from_coords)
+		# Filling the X_test and y_test array
+		X_test.append(im)
+		y_test.append(from_coords)
 
 		# Filling the p_X and p_y array
 		p_X = "p%d_X" % (index_piece + 1)
@@ -73,38 +74,38 @@ for index, game in tqdm(enumerate(games)):
 		p_y.append(to_coords)
 		
 # Move-out
-X_train, y_train = np.array(X_train), np.array(y_train)
+X_test, y_test = np.array(X_test), np.array(y_test)
 # Move-in
 p1_X, p2_X, p3_X = np.array(p1_X), np.array(p2_X), np.array(p3_X)
 p4_X, p5_X, p6_X = np.array(p4_X), np.array(p5_X), np.array(p6_X)
 p1_y, p2_y, p3_y = np.array(p1_y), np.array(p2_y), np.array(p3_y)
 p4_y, p5_y, p6_y = np.array(p4_y), np.array(p5_y), np.array(p6_y)
 
-print("Processed %d games out of %d" % (NUM_GAMES, NUM_GAMES))
+print("Processed %d games out of %d" % (NUM_TEST_GAMES, NUM_TEST_GAMES))
 print("Saving data...")
 
-print("Saving X_train array...")
-output = open('data_pkl/X_train_%d.pkl' % NUM_GAMES, 'wb')
-pickle.dump(X_train, output)
+print("Saving X_test array...")
+output = open('data_pkl/X_test_%d.pkl' % NUM_TEST_GAMES, 'wb')
+pickle.dump(X_test, output)
 output.close()
 
-print("Saving y_train array...")
-output = open('data_pkl/y_train_%d.pkl' % NUM_GAMES, 'wb')
-pickle.dump(y_train, output)
+print("Saving y_test array...")
+output = open('data_pkl/y_test_%d.pkl' % NUM_TEST_GAMES, 'wb')
+pickle.dump(y_test, output)
 output.close()
 
 for i in range(6):
 	output_array = "p%d_X" % (i + 1)
 	print("Saving %s array..." % output_array)
 	output_array = eval(output_array)
-	output = open('data_pkl/p%d_X_%d.pkl' % (i + 1, NUM_GAMES), 'wb') 
+	output = open('data_pkl/p%d_test_X_%d.pkl' % (i + 1, NUM_TEST_GAMES), 'wb') 
 	pickle.dump(output_array, output)
 	output.close()
 
 	output_array = "p%d_y" % (i + 1)
 	print("Saving %s array..." % output_array)
 	output_array = eval(output_array)
-	output = open('data_pkl/p%d_y_%d.pkl' % (i + 1, NUM_GAMES), 'wb') 
+	output = open('data_pkl/p%d_test_y_%d.pkl' % (i + 1, NUM_TEST_GAMES), 'wb') 
 	pickle.dump(output_array, output)
 	output.close()
 

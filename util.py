@@ -9,11 +9,11 @@ CHESSY_TO_Y = {'a' : 0, 'b' : 1, 'c' : 2, 'd' : 3, 'e' : 4, 'f' : 5, 'g' : 6, 'h
 
 # Reads all the chessboard games in the provided
 # pgn file. Returns games
-NUM_GAME = 3000
-def get_all_games(file_name):
+
+def get_all_games(file_name, num_game):
 	game_moves = []
 	with open(file_name) as pgn_file:
-		for _ in tqdm(range(NUM_GAME)):
+		for _ in tqdm(range(num_game)):
 			game_moves.append(pgn.read_game(pgn_file))
 	return game_moves
 

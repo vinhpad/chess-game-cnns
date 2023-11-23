@@ -10,6 +10,7 @@ class CNN(nn.Module):
         self.linear1 = nn.Linear(8*8*32, 128)
         
         self.linear2 = nn.Linear(128, num_classes)
+        self.softmax = nn.Softmax(dim = -1)
 
     def forward(self, inputs):
         x = self.conv1(inputs)
@@ -18,4 +19,5 @@ class CNN(nn.Module):
         x = self.linear1(x)
         x = self.relu(x)
         x = self.linear2(x)
+        x = self.softmax(x)
         return x

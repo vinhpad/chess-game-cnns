@@ -1,0 +1,11 @@
+numpy
+pgn
+chess
+torch
+tqdm
+torchmetrics
+Pillow
+torchvision
+pyparsing
+matplotlib
+scikit-learn
