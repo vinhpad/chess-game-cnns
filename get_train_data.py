@@ -7,7 +7,7 @@ from tqdm import tqdm
 from util import *
 
 DATA = "./data/FICS_2000.pgn"
-NUM_GAMES = 3000
+NUM_GAMES = 30000
 
 print("Loading PGN file...")
 
