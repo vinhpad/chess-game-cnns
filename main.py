@@ -41,6 +41,6 @@ with open(y_test, 'rb') as pkl_file:
 test_data = list(zip(test_input_data, test_label_data))
 test_loader = DataLoader(test_data, 250) 
 
-traner = ClassifierTrainer()
+trainer = ClassifierTrainer()
 
-traner.train(run_name= args.run_name, train_dataloader=train_loader, val_dataloader=test_loader)
+trainer.train(run_name= args.run_name, train_dataloader=train_loader, val_dataloader=test_loader)
